@@ -1,0 +1,9 @@
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(255, 211, 91);
+  padding: 0 10px;
+  top: 0;
+  position: sticky;
+}
