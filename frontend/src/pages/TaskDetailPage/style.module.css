@@ -1,0 +1,20 @@
+.pageContainer {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.timeInput {
+  margin-left: 30px;
+}
+
+.saveBtn {
+  align-self: flex-end;
+}

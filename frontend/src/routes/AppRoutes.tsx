@@ -2,6 +2,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Layout from "../pages/Layout";
 import GuardedRoute from "./GuardedRoutes";
 import HomePage from "../pages/HomePage";
+import TaskDetailPage from "../pages/TaskDetailPage";
 
 const LOGIN_ROUTE = "login";
 const REGISTER_ROUTE = "register";
@@ -26,6 +27,7 @@ export default function AppRoutes({ user }: AppRoutesProps) {
           >
             <Route index element={<HomePage />} />
           </Route>
+          <Route path="/task" element={<TaskDetailPage />} />
           <Route
             element={
               <GuardedRoute isRouteAccessible={!user} redirectRoute="/" />
