@@ -1,11 +1,11 @@
-import Navbar from "./components/Navbar";
-import TaskContainer from "./pages/HomePage/components/TaskContainer";
+import AppRoutes from "./routes/AppRoutes";
+
+// TODO: useAuth to check if user is logged in via access token
 
 function App() {
   return (
     <>
-      <Navbar />
-      <TaskContainer />
+      <AppRoutes />
     </>
   );
 }
