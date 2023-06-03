@@ -5,16 +5,15 @@ import HomePage from "../pages/HomePage";
 import TaskDetailPage from "../pages/TaskDetailPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
+import { useAuth } from "../hooks/useAuth";
+import CreateNewTaskPage from "../pages/CreateNewTaskPage";
 
 const LOGIN_ROUTE = "/login";
 const REGISTER_ROUTE = "/register";
 
-interface AppRoutesProps {
-  user?: string;
-}
-
-export default function AppRoutes({ user }: AppRoutesProps) {
-  // user = "user";
+export default function AppRoutes() {
+  const { email } = useAuth();
+  console.log("email: " + email);
   return (
     <BrowserRouter>
       <Routes>
@@ -22,22 +21,27 @@ export default function AppRoutes({ user }: AppRoutesProps) {
           <Route
             element={
               <GuardedRoute
-                isRouteAccessible={!!user}
+                isRouteAccessible={!!email}
                 redirectRoute={LOGIN_ROUTE}
               />
             }
           >
             <Route index element={<HomePage />} />
+            <Route path="/task" element={<TaskDetailPage />} />
+            <Route path="/createTask" element={<CreateNewTaskPage />} />
           </Route>
-          <Route path="/task" element={<TaskDetailPage />} />
         </Route>
         <Route
-          element={<GuardedRoute isRouteAccessible={!user} redirectRoute="/" />}
+          element={
+            <GuardedRoute isRouteAccessible={!email} redirectRoute="/" />
+          }
         >
           <Route path={LOGIN_ROUTE} element={<LoginPage />} />
         </Route>
         <Route
-          element={<GuardedRoute isRouteAccessible={!user} redirectRoute="/" />}
+          element={
+            <GuardedRoute isRouteAccessible={!email} redirectRoute="/" />
+          }
         >
           <Route path={REGISTER_ROUTE} element={<RegisterPage />} />
           <Route path="*" element={<p>Page Not Found</p>} />

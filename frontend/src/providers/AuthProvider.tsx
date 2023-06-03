@@ -18,12 +18,12 @@ interface AuthProviderProps {
 export const AuthContext = createContext<IAuthContext | null>(null);
 
 const token = localStorage.getItem("token");
-const user = localStorage.getItem("user");
+const localEmail = localStorage.getItem("email");
 
 const AuthProvider = (props: AuthProviderProps) => {
   const { children } = props;
   const [isLoggedIn, setLoggedIn] = useState(!!token);
-  const [email, setEmail] = useState(user);
+  const [email, setEmail] = useState(localEmail);
 
   const login = async (email: string, password: string) => {
     email = email.trim().toLowerCase();
@@ -37,7 +37,7 @@ const AuthProvider = (props: AuthProviderProps) => {
         }
       );
       localStorage.setItem("token", res.data.accessToken);
-      localStorage.setItem("user", email);
+      localStorage.setItem("email", email);
       setEmail(email);
       setLoggedIn(true);
     } catch (err) {
@@ -46,6 +46,7 @@ const AuthProvider = (props: AuthProviderProps) => {
         const message = response?.data.message;
         if (message) throw new Error(message);
       }
+      console.log(err);
       throw new Error("Unknown error");
     }
   };
@@ -53,7 +54,7 @@ const AuthProvider = (props: AuthProviderProps) => {
   const logout = () => {
     toast.success("Log out successfully");
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("email");
     setEmail(null);
     setLoggedIn(false);
   };
