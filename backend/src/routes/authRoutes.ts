@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import UserService from '../services/userServices';
+import { login, register } from '../services/userServices';
 
 const router = Router();
 
@@ -7,6 +7,8 @@ router.get('/', (req, res) => {
     res.send('Auth home page');
 });
 
-router.get('/login', UserService.login);
+router.post('/login', login);
+
+router.post('/register', register);
 
 export default router;
