@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType } from 'mongoose';
+import mongoose, { InferSchemaType, Model } from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
     email: { type: String, required: true },

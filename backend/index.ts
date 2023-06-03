@@ -1,9 +1,12 @@
-import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
 import bodyParser from 'body-parser';
-import AuthRoutes from './src/routes/authRoutes';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import express, { Express, Request, Response } from 'express';
 import './src/configs/db.config';
+import './src/models/Task';
+import './src/models/User';
+import authRoutes from './src/routes/authRoutes';
+import taskRoutes from './src/routes/taskRoutes';
 
 dotenv.config();
 
@@ -22,7 +25,8 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.use('/auth', AuthRoutes);
+app.use('/auth', authRoutes);
+app.use('/api', taskRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Server is running');
