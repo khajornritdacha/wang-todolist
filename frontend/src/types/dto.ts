@@ -1,15 +1,17 @@
-export interface ContentDto {
-  id: number;
-  videoTitle: string;
-  videoUrl: string;
-  comment: string;
-  rating: number;
-  thumbnailUrl: string;
-  creatorName: string;
-  creatorUrl: string;
-  postedBy: UserDto;
-  createdAt: string;
-  updatedAt: string;
+export interface TaskDataDto {
+  data: {
+    date: string;
+    tasks: TaskDto[];
+  }[];
+}
+
+export interface TaskDto {
+  _id: string;
+  title: string;
+  dueDate: string;
+  dueTime: string;
+  isCompleted: boolean;
+  ownerId: string;
 }
 
 export interface UserDto {

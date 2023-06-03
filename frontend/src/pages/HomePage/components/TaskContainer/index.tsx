@@ -1,8 +1,13 @@
 import { useEffect, useRef } from "react";
 import TaskList from "../TaskList";
 import { NAVBAR_HEIGHT } from "../../../../components/Navbar/constants";
+import { TaskDataDto } from "../../../../types/dto";
 
-export default function TaskContainer() {
+interface TaskContainerProps {
+  taskData: TaskDataDto;
+}
+
+export default function TaskContainer({ taskData }: TaskContainerProps) {
   const todayListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -13,15 +18,16 @@ export default function TaskContainer() {
     });
   }, []);
 
-  const taskLists: any[] = [1, 2, 3, 4, 5];
+  const today = "6/3/2023";
 
   return (
     <div>
-      {taskLists.map((taskList) => {
+      {taskData.data.map((taskList) => {
         return (
           <TaskList
-            date={taskList}
-            taskListRef={taskList === 3 ? todayListRef : null}
+            date={taskList.date}
+            taskListRef={taskList.date === today ? todayListRef : null}
+            tasks={taskList.tasks}
           />
         );
       })}
