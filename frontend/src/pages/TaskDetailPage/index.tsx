@@ -22,7 +22,7 @@ export default function TaskDetailPage() {
   return (
     <div className={styles.pageContainer}>
       {/* TODO: style arrow */}
-      <AiOutlineArrowLeft onClick={() => navigate("/", { replace: true })} />
+      <AiOutlineArrowLeft onClick={() => navigate("/")} />
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <div>
           <h3>Task</h3>
