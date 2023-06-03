@@ -1,15 +1,16 @@
 import { Request, Response } from 'express';
-import { User, UserDto } from '../models/User';
+import { User } from '../models/User';
 
+import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import { CredentialDto } from '../models/dto';
 
 dotenv.config();
 const saltRounds = 10;
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'SECRET';
 
-const generateAccessToken = (user: { email: string }) => {
+const generateAccessToken = (user: CredentialDto) => {
     return jwt.sign(user, ACCESS_TOKEN_SECRET, {
         expiresIn: '30 days',
     });
