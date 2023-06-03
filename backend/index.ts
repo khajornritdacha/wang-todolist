@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import AuthRoutes from './src/routes/authRoutes';
+import './src/configs/db.config';
 
 dotenv.config();
 
