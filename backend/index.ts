@@ -11,7 +11,9 @@ import taskRoutes from './src/routes/taskRoutes';
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+console.log('FRONTEND_URL: ' + FRONTEND_URL);
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,7 +22,7 @@ app.use(bodyParser.json());
 
 // Cors
 const corsOptions = {
-    origin: ['http://localhost:5000'],
+    origin: [FRONTEND_URL],
     credentials: true,
 };
 app.use(cors(corsOptions));
