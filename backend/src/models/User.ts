@@ -1,4 +1,5 @@
-import mongoose, { InferSchemaType, Model } from 'mongoose';
+import mongoose, { Document, InferSchemaType, Model } from 'mongoose';
+import { TaskDto } from './Task';
 
 const UserSchema = new mongoose.Schema({
     email: { type: String, required: true },
@@ -6,6 +7,9 @@ const UserSchema = new mongoose.Schema({
     tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }],
 });
 
-export type UserDto = InferSchemaType<typeof UserSchema>;
+export type UserDto = Document &
+    InferSchemaType<typeof UserSchema> & {
+        tasks: TaskDto[];
+    };
 
 export const User = mongoose.model('User', UserSchema);

@@ -1,19 +1,45 @@
 import { Response } from 'express';
-import { UserRequest } from '../models/dto';
+import { Task, TaskDto } from '../models/Task';
 import { User, UserDto } from '../models/User';
-import { Task } from '../models/Task';
+import { UserRequest } from '../models/dto';
 
+// TODO: add dates
+// TODO: query user with middlewares
 export const getTasks = async (req: UserRequest, res: Response) => {
     try {
         const email = req.user?.email;
 
         if (!email) return res.sendStatus(401);
 
-        const user = (await User.findOne({ email }).populate('tasks')) as any;
+        const user = (await User.findOne({ email }).populate(
+            'tasks'
+        )) as UserDto;
         if (!user) return res.sendStatus(401);
-
         if (!user?.tasks) return res.json([]);
-        return res.json(user.tasks);
+
+        // Group data by date
+        const groupDate = user.tasks.reduce((dataGDate, task: TaskDto) => {
+            dataGDate[task.dueDate] = dataGDate[task.dueDate] || [];
+            dataGDate[task.dueDate].push(task);
+            return dataGDate;
+        }, Object.create(null));
+
+        // Turn object into array
+        const sortedGroupDate = Object.keys(groupDate)
+            .sort()
+            .reduce(
+                (data: { date: string; tasks: TaskDto[] }[], date: string) => {
+                    // Sort by dueTime
+                    groupDate[date].sort((a: TaskDto, b: TaskDto) =>
+                        a.dueTime < b.dueTime ? -1 : 1
+                    );
+                    data.push({ date, tasks: groupDate[date] });
+                    return data;
+                },
+                []
+            );
+
+        return res.json({ data: sortedGroupDate });
     } catch (err) {
         console.log(err);
         return res.status(500).send(err);
