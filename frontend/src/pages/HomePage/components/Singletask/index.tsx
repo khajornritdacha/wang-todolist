@@ -23,23 +23,25 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
   const { loading: loadingEdit, error: errorEdit, editTask } = useEditTask();
 
   const handleCheck = async () => {
+    const toastId = toast.loading("Updating task...");
     await editTask({ ...task, isCompleted: !task.isCompleted });
     if (errorEdit) {
-      toast.error("Fail to update task");
+      toast.error("Fail to update task", { id: toastId });
     } else {
       // TODO: add defer to make update task more smooth
-      toast.success("Task updated");
+      toast.success("Task updated", { id: toastId });
       await fetchTasks();
     }
     return;
   };
 
   const handleDelete = async () => {
+    const toastId = toast.loading("Deleting task...");
     await deleteTask(task._id);
     if (errorDelete) {
-      toast.error("Fail to delete task");
+      toast.error("Fail to delete task", { id: toastId });
     } else {
-      toast.success("Task deleted");
+      toast.success("Task deleted", { id: toastId });
       // TODO: add defer to make delete task more smooth
       await fetchTasks();
     }

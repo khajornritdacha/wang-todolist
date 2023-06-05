@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useFetchSingleTask from "../../hooks/useFetchSingleTask";
 import styles from "./style.module.css";
 import { toast } from "react-hot-toast";
@@ -46,6 +46,7 @@ export default function TaskDetailPage() {
     // console.log(`Time: ${timeRef.current?.value}`);
 
     if (task !== undefined) {
+      const toastId = toast.loading("Updating task...");
       await editTask({
         ...task,
         title,
@@ -54,9 +55,9 @@ export default function TaskDetailPage() {
       });
 
       if (errorUpdate) {
-        toast.error("Fail to update task");
+        toast.error("Fail to update task", { id: toastId });
       } else {
-        toast.success("Task updated");
+        toast.success("Task updated", { id: toastId });
       }
     }
   };
@@ -69,33 +70,37 @@ export default function TaskDetailPage() {
 
   return (
     <div className={styles.pageContainer}>
-      {/* TODO: style arrow */}
-      <AiOutlineArrowLeft onClick={() => navigate("/")} />
       <form className={styles.formContainer} onSubmit={handleSubmit}>
-        <div>
-          <h3>Task</h3>
+        <div className={styles.subFormContainer}>
+          <h2>Task</h2>
           <input type="text" id="taskTitle" required ref={titleRef} />
         </div>
-        <div>
-          <h3>Due Date</h3>
-          <div>
+        <div className={styles.subFormContainer}>
+          <h2>Due Date</h2>
+          <div className={styles.inputContainer}>
             <input type="date" id="dueDate" required ref={dateRef} />
-            <input
-              type="time"
-              id="dueTime"
-              className={styles.timeInput}
-              required
-              ref={timeRef}
-            />
+            <input type="time" id="dueTime" required ref={timeRef} />
           </div>
         </div>
-        <button
-          type="submit"
-          className={styles.saveBtn}
-          disabled={loadingUpdate}
-        >
-          Save
-        </button>
+        <div className={styles.btnContainer}>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <button
+              className={`${styles.saveBtn}`}
+              style={{ backgroundColor: "grey", color: "white" }}
+            >
+              Back
+            </button>
+          </Link>
+          <button
+            type="submit"
+            className={`${styles.saveBtn} ${
+              loadingUpdate && styles.disableBtn
+            }`}
+            disabled={loadingUpdate}
+          >
+            Save
+          </button>
+        </div>
       </form>
     </div>
   );

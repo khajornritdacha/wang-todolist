@@ -22,7 +22,6 @@ export default function TaskContainer({
   // TODO: handle scroll
   useEffect(() => {
     if (!todayListRef.current) return;
-    // if (loading) return;
     if (loading) return;
     window.scrollTo({
       top: todayListRef.current?.offsetTop - NAVBAR_HEIGHT,
