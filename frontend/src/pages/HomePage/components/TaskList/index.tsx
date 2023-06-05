@@ -9,9 +9,14 @@ interface TaskListProps {
 }
 
 export default function TaskList({ taskListRef, date, tasks }: TaskListProps) {
+  const displayDate = new Date(date).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
   return (
     <div className={styles.container} ref={taskListRef}>
-      <h1 className={styles.dateText}>{date}</h1>
+      <h1 className={styles.dateText}>{displayDate}</h1>
       {tasks.map((task: TaskDto) => {
         return <SingleTask task={task} />;
       })}

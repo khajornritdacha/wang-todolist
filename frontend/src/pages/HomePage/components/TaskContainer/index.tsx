@@ -18,7 +18,7 @@ export default function TaskContainer({ taskData }: TaskContainerProps) {
     });
   }, []);
 
-  const today = "6/3/2023";
+  taskData = dummyData;
 
   return (
     <div>
@@ -26,7 +26,7 @@ export default function TaskContainer({ taskData }: TaskContainerProps) {
         return (
           <TaskList
             date={taskList.date}
-            taskListRef={taskList.date === today ? todayListRef : null}
+            taskListRef={taskList.difDays === 0 ? todayListRef : null}
             tasks={taskList.tasks}
           />
         );
@@ -34,3 +34,149 @@ export default function TaskContainer({ taskData }: TaskContainerProps) {
     </div>
   );
 }
+
+const dummyData = {
+  data: [
+    {
+      date: "17/05/2023",
+      difDays: -5,
+      tasks: [
+        {
+          _id: "647d55a377651162123d9c15",
+          title: "Test 4",
+          dueDate: "17/05/2023",
+          dueTime: "17.30",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+      ],
+    },
+    {
+      date: "2023-06-06",
+      difDays: 0,
+      tasks: [
+        {
+          _id: "647d574377651162123d9c35",
+          title: "test1",
+          dueDate: "2023-06-06",
+          dueTime: "00:30",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+        {
+          _id: "647d57c177651162123d9c3d",
+          title: "test1",
+          dueDate: "2023-06-06",
+          dueTime: "03:30",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+        {
+          _id: "647d582577651162123d9c42",
+          title: "test1",
+          dueDate: "2023-06-06",
+          dueTime: "03:30",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+      ],
+    },
+    {
+      date: "2023-06-07",
+      difDays: 1,
+      tasks: [
+        {
+          _id: "647aff5120aef17cdba99158",
+          title: "Untitled",
+          dueDate: "2023-06-07",
+          dueTime: "18:52",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+      ],
+    },
+    {
+      date: "2027-11-05",
+      difDays: 10,
+      tasks: [
+        {
+          _id: "647d588f77651162123d9c61",
+          title: "test3",
+          dueDate: "2027-11-05",
+          dueTime: "01:29",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+        {
+          _id: "647d589877651162123d9c6a",
+          title: "test3",
+          dueDate: "2027-11-05",
+          dueTime: "01:29",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+        {
+          _id: "647d589977651162123d9c6f",
+          title: "test3",
+          dueDate: "2027-11-05",
+          dueTime: "01:29",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+        {
+          _id: "647d589a77651162123d9c73",
+          title: "test3",
+          dueDate: "2027-11-05",
+          dueTime: "01:29",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+        {
+          _id: "647d586e77651162123d9c54",
+          title: "test3",
+          dueDate: "2027-11-05",
+          dueTime: "01:30",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+        {
+          _id: "647d586f77651162123d9c59",
+          title: "test3",
+          dueDate: "2027-11-05",
+          dueTime: "01:30",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+        {
+          _id: "647d583377651162123d9c47",
+          title: "test3",
+          dueDate: "2027-11-05",
+          dueTime: "03:30",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+        {
+          _id: "647d583477651162123d9c4c",
+          title: "test3",
+          dueDate: "2027-11-05",
+          dueTime: "03:30",
+          isCompleted: false,
+          ownerId: "647af96220aef17cdba99151",
+          __v: 0,
+        },
+      ],
+    },
+  ],
+};

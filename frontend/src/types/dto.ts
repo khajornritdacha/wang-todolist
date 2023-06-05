@@ -1,6 +1,7 @@
 export interface TaskDataDto {
   data: {
     date: string;
+    difDays: number;
     tasks: TaskDto[];
   }[];
 }
