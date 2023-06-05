@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import TaskList from "../TaskList";
 import { NAVBAR_HEIGHT } from "../../../../components/Navbar/constants";
 import { TasksApiDto } from "../../../../types/dto";
+import styles from "./styles.module.css";
 
 interface TaskContainerProps {
   taskData: TasksApiDto;
@@ -30,11 +31,12 @@ export default function TaskContainer({
   }, [loading]);
 
   return (
-    <div>
+    <div className={styles.container}>
       {taskData.data.map((taskList) => {
         return (
           <TaskList
             date={taskList.date}
+            dayDiff={taskList.dayDiff}
             taskListRef={taskList.dayDiff === 0 ? todayListRef : null}
             tasks={taskList.tasks}
             fetchTasks={fetchTasks}

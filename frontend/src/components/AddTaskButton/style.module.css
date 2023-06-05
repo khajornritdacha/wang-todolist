@@ -1,0 +1,15 @@
+.container {
+  width: 45px;
+  height: 45px;
+  border-radius: 99rem;
+  background-color: #5561fa;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  font-size: 40px;
+  cursor: pointer;
+}

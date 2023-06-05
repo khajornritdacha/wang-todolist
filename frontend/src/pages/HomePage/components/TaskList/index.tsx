@@ -6,6 +6,7 @@ interface TaskListProps {
   taskListRef?: React.RefObject<HTMLDivElement> | null;
   date: string;
   tasks: TaskDto[];
+  dayDiff: number;
   fetchTasks: () => Promise<void>;
 }
 
@@ -13,13 +14,19 @@ export default function TaskList({
   taskListRef,
   date,
   tasks,
+  dayDiff,
   fetchTasks,
 }: TaskListProps) {
-  const displayDate = new Date(date).toLocaleDateString("en-US", {
+  let displayDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
     month: "short",
     year: "numeric",
   });
+  console.log(`Date&Dif: ${date} -> ${dayDiff}`);
+  if (dayDiff === 0) {
+    displayDate += " (Today)";
+  }
+
   return (
     <div className={styles.container} ref={taskListRef}>
       <h1 className={styles.dateText}>{displayDate}</h1>

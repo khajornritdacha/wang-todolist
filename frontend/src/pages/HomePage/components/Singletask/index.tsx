@@ -52,7 +52,12 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
         to={`/task/${task._id}`}
         style={{ textDecoration: "none", width: "100%" }}
       >
-        <div className={styles.textContainer}>
+        <div
+          className={styles.textContainer}
+          style={{
+            textDecoration: task.isCompleted ? "line-through" : "inherit",
+          }}
+        >
           <h3>{task.title}</h3>
           <p>{task.dueTime}</p>
         </div>
@@ -72,7 +77,7 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
           />
         )}
         <MdOutlineDeleteOutline
-          className={styles.icon}
+          className={`${styles.icon} ${styles.deleteIcon}`}
           styles={{ cursor: loadingDelete ? "not-allowed" : "pointer" }}
           onClick={handleDelete}
           disabled={loadingDelete}
