@@ -1,7 +1,20 @@
 import { Response } from 'express';
 import { Task, TaskDto } from '../models/Task';
 import { User, UserDto } from '../models/User';
-import { UserRequest } from '../models/dto';
+import { TaskApiDto, UserRequest } from '../models/dto';
+
+const calculateDifDays = (date1: string, date2: string): number | undefined => {
+    try {
+        const d1 = new Date(date1);
+        const d2 = new Date(date2);
+        const timeDiff = d2.getTime() - d1.getTime();
+        const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        return dayDiff;
+    } catch (err) {
+        console.log(`Error in calculate differences days: ${err}`);
+        return undefined;
+    }
+};
 
 // TODO: add dates
 // TODO: query user with middlewares
@@ -27,17 +40,24 @@ export const getTasks = async (req: UserRequest, res: Response) => {
         // Turn object into array
         const sortedGroupDate = Object.keys(groupDate)
             .sort()
-            .reduce(
-                (data: { date: string; tasks: TaskDto[] }[], date: string) => {
-                    // Sort by dueTime
-                    groupDate[date].sort((a: TaskDto, b: TaskDto) =>
-                        a.dueTime < b.dueTime ? -1 : 1
-                    );
-                    data.push({ date, tasks: groupDate[date] });
-                    return data;
-                },
-                []
-            );
+            .reduce((data: TaskApiDto[], date: string) => {
+                // Sort by dueTime
+                groupDate[date].sort((a: TaskDto, b: TaskDto) =>
+                    a.dueTime < b.dueTime ? -1 : 1
+                );
+
+                // Calculate day differences
+                const dayDiff = calculateDifDays(
+                    new Date().toDateString(),
+                    date
+                );
+
+                // TODO: handle undefined dayDiff
+                if (dayDiff !== undefined) {
+                    data.push({ date, tasks: groupDate[date], dayDiff });
+                }
+                return data;
+            }, []);
 
         return res.json({ data: sortedGroupDate });
     } catch (err) {

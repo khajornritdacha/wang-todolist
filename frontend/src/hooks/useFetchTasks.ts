@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { TaskDataDto } from "../types/dto";
+import { TasksApiDto } from "../types/dto";
 import { api } from "../utils/axios";
 
 const useFetchTasks = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [taskData, setTaskData] = useState<TaskDataDto>({ data: [] });
+  const [taskData, setTaskData] = useState<TasksApiDto>({ data: [] });
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         setLoading(true);
-        const res = (await api.get(`/api/tasks`)) as TaskDataDto;
+        const res = (await api.get(`/api/tasks`)) as TasksApiDto;
         setTaskData(res);
       } catch (err) {
         setError(true);

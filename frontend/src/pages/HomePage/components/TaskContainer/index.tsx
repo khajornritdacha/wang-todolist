@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import TaskList from "../TaskList";
 import { NAVBAR_HEIGHT } from "../../../../components/Navbar/constants";
-import { TaskDataDto } from "../../../../types/dto";
+import { TasksApiDto } from "../../../../types/dto";
 
 interface TaskContainerProps {
-  taskData: TaskDataDto;
+  taskData: TasksApiDto;
 }
 
 export default function TaskContainer({ taskData }: TaskContainerProps) {
@@ -26,7 +26,7 @@ export default function TaskContainer({ taskData }: TaskContainerProps) {
         return (
           <TaskList
             date={taskList.date}
-            taskListRef={taskList.difDays === 0 ? todayListRef : null}
+            taskListRef={taskList.dayDiff === 0 ? todayListRef : null}
             tasks={taskList.tasks}
           />
         );
