@@ -6,6 +6,7 @@ import useDeleteTask from "../../../../hooks/useDeleteTask";
 import useEditTask from "../../../../hooks/useEditTask";
 import { TaskDto } from "../../../../types/dto";
 import styles from "./styles.module.css";
+import { useState } from "react";
 
 interface SingleTaskProps {
   task: TaskDto;
@@ -21,6 +22,7 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
   } = useDeleteTask();
 
   const { loading: loadingEdit, error: errorEdit, editTask } = useEditTask();
+  const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
   const handleCheck = async () => {
     if (loadingEdit) return;
@@ -37,6 +39,7 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
 
   const handleDelete = async () => {
     if (loadingDelete) return;
+    setIsDeleted(true);
     const toastId = toast.loading("Deleting task...");
     await deleteTask(task._id);
     if (errorDelete) {
@@ -79,8 +82,9 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
           />
         )}
         <MdOutlineDeleteOutline
-          className={`${styles.icon} ${styles.deleteIcon}`}
-          styles={{ cursor: loadingDelete ? "not-allowed" : "pointer" }}
+          className={`${styles.icon} ${styles.deleteIcon} ${
+            isDeleted && styles.disabled
+          }}`}
           onClick={handleDelete}
         />
       </div>
