@@ -19,7 +19,10 @@ export default function SingleTask({ task }: SingleTaskProps) {
 
   return (
     <div className={styles.container}>
-      <Link to="/task" style={{ textDecoration: "none", width: "100%" }}>
+      <Link
+        to={`/task/${task._id}`}
+        style={{ textDecoration: "none", width: "100%" }}
+      >
         <div className={styles.textContainer}>
           <h3>{task.title}</h3>
           <p>{task.dueTime}</p>

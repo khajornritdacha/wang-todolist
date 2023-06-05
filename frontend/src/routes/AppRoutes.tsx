@@ -27,7 +27,7 @@ export default function AppRoutes() {
             }
           >
             <Route index element={<HomePage />} />
-            <Route path="/task" element={<TaskDetailPage />} />
+            <Route path="/task/:id" element={<TaskDetailPage />} />
             <Route path="/createTask" element={<CreateNewTaskPage />} />
           </Route>
         </Route>
