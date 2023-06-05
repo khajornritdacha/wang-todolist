@@ -56,7 +56,7 @@ export const register = async (req: Request, res: Response) => {
     // Create new account
     // Hashing password first
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    user = new User({ email, password: hashedPassword });
+    user = new User({ email, password: hashedPassword, tasks: [] });
     await user.save();
 
     res.sendStatus(201);
