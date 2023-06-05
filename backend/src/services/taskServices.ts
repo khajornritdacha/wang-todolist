@@ -8,7 +8,7 @@ const calculateDifDays = (date1: string, date2: string): number | undefined => {
         const d1 = new Date(date1);
         const d2 = new Date(date2);
         const timeDiff = d2.getTime() - d1.getTime();
-        const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
         return dayDiff;
     } catch (err) {
         console.log(`Error in calculate differences days: ${err}`);
