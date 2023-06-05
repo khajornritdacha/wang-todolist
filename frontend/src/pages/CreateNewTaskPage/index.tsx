@@ -15,6 +15,8 @@ export default function CreateNewTaskPage() {
   const [time, setTime] = useState<string>("");
   const { error, createTask } = useCreateTask();
 
+  // TODO: clear input after successfully submit
+  // TODO: add disable button when submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(`Task: ${taskTitle}`);
@@ -32,7 +34,7 @@ export default function CreateNewTaskPage() {
       return;
     }
     toast.success("Create task successfully");
-    navigate("/");
+    // navigate("/");
   };
 
   return (

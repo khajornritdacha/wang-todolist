@@ -6,9 +6,15 @@ interface TaskListProps {
   taskListRef?: React.RefObject<HTMLDivElement> | null;
   date: string;
   tasks: TaskDto[];
+  fetchTasks: () => Promise<void>;
 }
 
-export default function TaskList({ taskListRef, date, tasks }: TaskListProps) {
+export default function TaskList({
+  taskListRef,
+  date,
+  tasks,
+  fetchTasks,
+}: TaskListProps) {
   const displayDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
     month: "short",
@@ -18,7 +24,7 @@ export default function TaskList({ taskListRef, date, tasks }: TaskListProps) {
     <div className={styles.container} ref={taskListRef}>
       <h1 className={styles.dateText}>{displayDate}</h1>
       {tasks.map((task: TaskDto) => {
-        return <SingleTask task={task} />;
+        return <SingleTask task={task} fetchTasks={fetchTasks} />;
       })}
     </div>
   );

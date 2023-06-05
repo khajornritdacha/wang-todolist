@@ -3,7 +3,7 @@ import { TaskDto } from "../types/dto";
 import { api } from "../utils/axios";
 
 const useFetchSingleTask = (id: string) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [task, setTask] = useState<TaskDto>();
 

@@ -4,14 +4,19 @@ import TaskContainer from "./components/TaskContainer";
 // TODO: edit backend api
 // TODO: handle errors
 export default function HomePage() {
-  const { loading, error, taskData } = useFetchTasks();
+  const { loading, error, taskData, fetchTasks } = useFetchTasks();
 
   return (
     <>
       {loading ? (
         <h1>Loading...</h1>
       ) : (
-        <TaskContainer taskData={taskData} loading={loading} error={error} />
+        <TaskContainer
+          taskData={taskData}
+          loading={loading}
+          error={error}
+          fetchTasks={fetchTasks}
+        />
       )}
     </>
   );

@@ -7,22 +7,23 @@ const useFetchTasks = () => {
   const [error, setError] = useState(false);
   const [taskData, setTaskData] = useState<TasksApiDto>({ data: [] });
 
+  const fetchTasks = async () => {
+    try {
+      setLoading(true);
+      const res = (await api.get(`/api/tasks`)).data as TasksApiDto;
+      setTaskData(res);
+    } catch (err) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        setLoading(true);
-        const res = (await api.get(`/api/tasks`)).data as TasksApiDto;
-        setTaskData(res);
-      } catch (err) {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchTasks();
   }, []);
 
-  return { loading, error, taskData };
+  return { loading, error, taskData, fetchTasks };
 };
 
 export default useFetchTasks;

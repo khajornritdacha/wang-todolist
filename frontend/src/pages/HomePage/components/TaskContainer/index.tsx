@@ -7,12 +7,14 @@ interface TaskContainerProps {
   taskData: TasksApiDto;
   loading: boolean;
   error: boolean;
+  fetchTasks: () => Promise<void>;
 }
 
 export default function TaskContainer({
   taskData,
   loading,
   error,
+  fetchTasks,
 }: TaskContainerProps) {
   const todayListRef = useRef<HTMLDivElement>(null);
 
@@ -35,6 +37,7 @@ export default function TaskContainer({
             date={taskList.date}
             taskListRef={taskList.dayDiff === 0 ? todayListRef : null}
             tasks={taskList.tasks}
+            fetchTasks={fetchTasks}
             key={taskList.date}
           />
         );
