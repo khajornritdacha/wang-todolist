@@ -8,7 +8,7 @@ const useFetchSingleTask = (id: string) => {
   const [task, setTask] = useState<TaskDto>();
 
   useEffect(() => {
-    const fetchTasks = async (id: string) => {
+    const fetchTask = async (id: string) => {
       try {
         setLoading(true);
         const res = (await api.get(`/api/tasks/${id}`)).data as TaskDto;
@@ -20,7 +20,7 @@ const useFetchSingleTask = (id: string) => {
         setLoading(false);
       }
     };
-    fetchTasks(id);
+    fetchTask(id);
   }, [id]);
 
   return { loading, error, task };

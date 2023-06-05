@@ -2,7 +2,7 @@ import { useState } from "react";
 import { api } from "../utils/axios";
 
 const useCreateTask = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const createTask = async (

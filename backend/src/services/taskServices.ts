@@ -75,8 +75,9 @@ export const createTask = async (req: UserRequest, res: Response) => {
         const email = req.user?.email;
         const { title, dueDate, dueTime } = req.body;
 
-        if (!email || !title || !dueDate || !dueTime)
-            return res.sendStatus(401);
+        if (!email || !title) return res.sendStatus(401);
+
+        if (!dueDate || !dueTime) return res.sendStatus(400);
 
         const user = await User.findOne({ email });
 
@@ -103,17 +104,15 @@ export const createTask = async (req: UserRequest, res: Response) => {
 
 export const updateTask = async (req: UserRequest, res: Response) => {
     try {
-        const task = req.body?.task;
+        const task = req.body?.task as TaskDto;
 
-        if (!task) return res.sendStatus(401);
+        if (!task) return res.sendStatus(400);
 
-        let prevTask = await Task.findById(task._id);
-        prevTask = task;
-        if (prevTask) {
-            await prevTask.save();
-            return res.status(200).json(prevTask);
-        }
-        return res.status(401);
+        const result = await Task.findOneAndReplace({ _id: task._id }, task, {
+            new: true,
+        });
+
+        return res.status(200).json(result);
     } catch (err) {
         console.log(err);
         return res.status(500).send(err);
@@ -130,7 +129,7 @@ export const deleteTask = async (req: UserRequest, res: Response) => {
         if (!email || !id) return res.sendStatus(401);
 
         const task = (await Task.findById(id)) as any;
-        if (!task) return res.status(401).json({ message: 'Task not found' });
+        if (!task) return res.status(400).json({ message: 'Task not found' });
 
         const user = (await User.findOne({ email })) as any;
         if (!user) return res.sendStatus(401);

@@ -4,12 +4,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import useFetchSingleTask from "../../hooks/useFetchSingleTask";
 import styles from "./style.module.css";
 import { toast } from "react-hot-toast";
+import useEditTask from "../../hooks/useEditTask";
 
 // TODO: style this page
 export default function TaskDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { loading, error, task } = useFetchSingleTask(id as string);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    editTask,
+  } = useEditTask();
 
   const titleRef = useRef<HTMLInputElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
@@ -24,17 +30,39 @@ export default function TaskDetailPage() {
     }
   }, [task]);
 
-  // TODO: handle submit
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`Task: ${titleRef.current?.value}`);
-    console.log(`Date: ${dateRef.current?.value}`);
-    console.log(`Time: ${timeRef.current?.value}`);
+    const title = titleRef.current?.value;
+    const date = dateRef.current?.value;
+    const time = timeRef.current?.value;
+
+    if (!title || !date || !time) {
+      toast.error("Please fill all details");
+      return;
+    }
+
+    // console.log(`Task: ${titleRef.current?.value}`);
+    // console.log(`Date: ${dateRef.current?.value}`);
+    // console.log(`Time: ${timeRef.current?.value}`);
+
+    if (task !== undefined) {
+      await editTask({
+        ...task,
+        title,
+        dueDate: date,
+        dueTime: time,
+      });
+
+      if (errorUpdate) {
+        toast.error("Fail to update task");
+      } else {
+        toast.success("Task updated");
+      }
+    }
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) {
-    // TODO: handle error
     toast.error("Error in fetching task");
     navigate("/");
   }
@@ -61,7 +89,11 @@ export default function TaskDetailPage() {
             />
           </div>
         </div>
-        <button type="submit" className={styles.saveBtn}>
+        <button
+          type="submit"
+          className={styles.saveBtn}
+          disabled={loadingUpdate}
+        >
           Save
         </button>
       </form>
