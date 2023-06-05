@@ -1,16 +1,18 @@
-import styles from "./styles.module.css";
-import { Link, useNavigate } from "react-router-dom";
-import { MdOutlineDeleteOutline } from "react-icons/md";
-import { BiSquare, BiCheckSquare } from "react-icons/bi";
-import { TaskDto } from "../../../../types/dto";
-import useDeleteTask from "../../../../hooks/useDeleteTask";
 import { toast } from "react-hot-toast";
+import { BiCheckSquare, BiSquare } from "react-icons/bi";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { Link } from "react-router-dom";
+import useDeleteTask from "../../../../hooks/useDeleteTask";
+import useEditTask from "../../../../hooks/useEditTask";
+import { TaskDto } from "../../../../types/dto";
+import styles from "./styles.module.css";
 
 interface SingleTaskProps {
   task: TaskDto;
   fetchTasks: () => Promise<void>;
 }
 
+// TODO: add delete animation
 export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
   const {
     loading: loadingDelete,
@@ -18,7 +20,17 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
     deleteTask,
   } = useDeleteTask();
 
-  const handleCheck = () => {
+  const { loading: loadingEdit, error: errorEdit, editTask } = useEditTask();
+
+  const handleCheck = async () => {
+    await editTask({ ...task, isCompleted: !task.isCompleted });
+    if (errorEdit) {
+      toast.error("Fail to update task");
+    } else {
+      // TODO: add defer to make update task more smooth
+      toast.success("Task updated");
+      await fetchTasks();
+    }
     return;
   };
 
@@ -46,13 +58,25 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
         </div>
       </Link>
       <div className={styles.iconContainer}>
-        <BiSquare className={styles.icon} onClick={handleCheck} />
+        {task.isCompleted ? (
+          <BiCheckSquare
+            className={styles.icon}
+            onClick={handleCheck}
+            styles={{ cursor: loadingDelete ? "not-allowed" : "pointer" }}
+          />
+        ) : (
+          <BiSquare
+            className={styles.icon}
+            onClick={handleCheck}
+            styles={{ cursor: loadingDelete ? "not-allowed" : "pointer" }}
+          />
+        )}
         <MdOutlineDeleteOutline
           className={styles.icon}
+          styles={{ cursor: loadingDelete ? "not-allowed" : "pointer" }}
           onClick={handleDelete}
           disabled={loadingDelete}
         />
-        {/* <BiCheckSquare /> */}
       </div>
     </div>
   );
