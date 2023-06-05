@@ -41,6 +41,8 @@ export default function TaskDetailPage() {
       return;
     }
 
+    if (loadingUpdate) return;
+
     // console.log(`Task: ${titleRef.current?.value}`);
     // console.log(`Date: ${dateRef.current?.value}`);
     // console.log(`Time: ${timeRef.current?.value}`);

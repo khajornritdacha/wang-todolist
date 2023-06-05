@@ -3,6 +3,7 @@ import TaskList from "../TaskList";
 import { NAVBAR_HEIGHT } from "../../../../components/Navbar/constants";
 import { TasksApiDto } from "../../../../types/dto";
 import styles from "./styles.module.css";
+import useFetchTasks from "../../../../hooks/useFetchTasks";
 
 interface TaskContainerProps {
   taskData: TasksApiDto;
@@ -11,23 +12,21 @@ interface TaskContainerProps {
   fetchTasks: () => Promise<void>;
 }
 
-export default function TaskContainer({
-  taskData,
-  loading,
-  error,
-  fetchTasks,
-}: TaskContainerProps) {
+export default function TaskContainer() {
   const todayListRef = useRef<HTMLDivElement>(null);
+
+  const { loading, error, taskData, fetchTasks, fetchCount } = useFetchTasks();
 
   // TODO: handle scroll
   useEffect(() => {
     if (!todayListRef.current) return;
     if (loading) return;
+    if (fetchCount > 1) return;
     window.scrollTo({
       top: todayListRef.current?.offsetTop - NAVBAR_HEIGHT,
       behavior: "smooth",
     });
-  }, [loading]);
+  }, [loading, fetchCount]);
 
   return (
     <div className={styles.container}>

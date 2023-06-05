@@ -6,11 +6,13 @@ const useFetchTasks = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [taskData, setTaskData] = useState<TasksApiDto>({ data: [] });
+  const [fetchCount, setFetchCount] = useState(0);
 
   const fetchTasks = async () => {
     try {
       setLoading(true);
       const res = (await api.get(`/api/tasks`)).data as TasksApiDto;
+      setFetchCount(fetchCount + 1);
       setTaskData(res);
     } catch (err) {
       setError(true);
@@ -23,7 +25,7 @@ const useFetchTasks = () => {
     fetchTasks();
   }, []);
 
-  return { loading, error, taskData, fetchTasks };
+  return { loading, error, taskData, fetchTasks, fetchCount };
 };
 
 export default useFetchTasks;

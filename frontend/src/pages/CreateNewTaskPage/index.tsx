@@ -20,6 +20,8 @@ export default function CreateNewTaskPage() {
     // console.log(`Date: ${date}`);
     // console.log(`Time: ${time}`);
 
+    if (loading) return;
+
     if (!taskTitle || !date || !time) {
       toast.error("Please enter all details");
       return;

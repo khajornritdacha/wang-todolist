@@ -23,12 +23,12 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
   const { loading: loadingEdit, error: errorEdit, editTask } = useEditTask();
 
   const handleCheck = async () => {
+    if (loadingEdit) return;
     const toastId = toast.loading("Updating task...");
     await editTask({ ...task, isCompleted: !task.isCompleted });
     if (errorEdit) {
       toast.error("Fail to update task", { id: toastId });
     } else {
-      // TODO: add defer to make update task more smooth
       toast.success("Task updated", { id: toastId });
       await fetchTasks();
     }
@@ -36,13 +36,13 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
   };
 
   const handleDelete = async () => {
+    if (loadingDelete) return;
     const toastId = toast.loading("Deleting task...");
     await deleteTask(task._id);
     if (errorDelete) {
       toast.error("Fail to delete task", { id: toastId });
     } else {
       toast.success("Task deleted", { id: toastId });
-      // TODO: add defer to make delete task more smooth
       await fetchTasks();
     }
     return;
@@ -69,20 +69,19 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
           <BiCheckSquare
             className={styles.icon}
             onClick={handleCheck}
-            styles={{ cursor: loadingDelete ? "not-allowed" : "pointer" }}
+            styles={{ cursor: loadingEdit ? "not-allowed" : "pointer" }}
           />
         ) : (
           <BiSquare
             className={styles.icon}
             onClick={handleCheck}
-            styles={{ cursor: loadingDelete ? "not-allowed" : "pointer" }}
+            styles={{ cursor: loadingEdit ? "not-allowed" : "pointer" }}
           />
         )}
         <MdOutlineDeleteOutline
           className={`${styles.icon} ${styles.deleteIcon}`}
           styles={{ cursor: loadingDelete ? "not-allowed" : "pointer" }}
           onClick={handleDelete}
-          disabled={loadingDelete}
         />
       </div>
     </div>

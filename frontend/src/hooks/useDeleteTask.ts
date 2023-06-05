@@ -10,7 +10,6 @@ const useDeleteTask = () => {
     try {
       setLoading(true);
       const res = (await api.delete(`/api/tasks/${id}`)).data as TaskDto;
-      console.log(res);
     } catch (err) {
       setError(true);
     } finally {
