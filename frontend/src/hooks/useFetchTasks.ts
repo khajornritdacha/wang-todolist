@@ -12,7 +12,6 @@ const useFetchTasks = () => {
       try {
         setLoading(true);
         const res = (await api.get(`/api/tasks`)) as TaskDataDto;
-        console.log(res);
         setTaskData(res);
       } catch (err) {
         setError(true);
