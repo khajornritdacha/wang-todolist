@@ -17,7 +17,6 @@ const useCreateTask = () => {
         dueDate,
         dueTime,
       });
-      console.log(res);
     } catch (err) {
       setError(true);
     } finally {

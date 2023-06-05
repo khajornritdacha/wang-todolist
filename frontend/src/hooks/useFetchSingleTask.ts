@@ -12,7 +12,6 @@ const useFetchSingleTask = (id: string) => {
       try {
         setLoading(true);
         const res = (await api.get(`/api/tasks/${id}`)).data as TaskDto;
-        console.log(res);
         setTask(res);
       } catch (err) {
         setError(true);

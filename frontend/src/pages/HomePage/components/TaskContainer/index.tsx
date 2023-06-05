@@ -5,20 +5,27 @@ import { TasksApiDto } from "../../../../types/dto";
 
 interface TaskContainerProps {
   taskData: TasksApiDto;
+  loading: boolean;
+  error: boolean;
 }
 
-export default function TaskContainer({ taskData }: TaskContainerProps) {
+export default function TaskContainer({
+  taskData,
+  loading,
+  error,
+}: TaskContainerProps) {
   const todayListRef = useRef<HTMLDivElement>(null);
 
+  // TODO: handle scroll
   useEffect(() => {
     if (!todayListRef.current) return;
+    // if (loading) return;
+    if (loading) return;
     window.scrollTo({
       top: todayListRef.current?.offsetTop - NAVBAR_HEIGHT,
       behavior: "smooth",
     });
-  }, []);
-
-  taskData = dummyData;
+  }, [loading]);
 
   return (
     <div>
@@ -28,6 +35,7 @@ export default function TaskContainer({ taskData }: TaskContainerProps) {
             date={taskList.date}
             taskListRef={taskList.dayDiff === 0 ? todayListRef : null}
             tasks={taskList.tasks}
+            key={taskList.date}
           />
         );
       })}
@@ -35,11 +43,12 @@ export default function TaskContainer({ taskData }: TaskContainerProps) {
   );
 }
 
+// TODO: remove dummy data
 const dummyData = {
   data: [
     {
       date: "17/05/2023",
-      difDays: -5,
+      dayDiff: -5,
       tasks: [
         {
           _id: "647d55a377651162123d9c15",
@@ -54,7 +63,7 @@ const dummyData = {
     },
     {
       date: "2023-06-06",
-      difDays: 0,
+      dayDiff: 0,
       tasks: [
         {
           _id: "647d574377651162123d9c35",
@@ -87,7 +96,7 @@ const dummyData = {
     },
     {
       date: "2023-06-07",
-      difDays: 1,
+      dayDiff: 1,
       tasks: [
         {
           _id: "647aff5120aef17cdba99158",
@@ -102,7 +111,7 @@ const dummyData = {
     },
     {
       date: "2027-11-05",
-      difDays: 10,
+      dayDiff: 10,
       tasks: [
         {
           _id: "647d588f77651162123d9c61",
