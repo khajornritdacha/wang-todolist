@@ -1,12 +1,11 @@
-import { useEffect, useRef } from "react";
-import { AiOutlineArrowLeft } from "react-icons/ai";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import useFetchSingleTask from "../../hooks/useFetchSingleTask";
-import styles from "./style.module.css";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useEditTask from "../../hooks/useEditTask";
+import useFetchSingleTask from "../../hooks/useFetchSingleTask";
+import { useUnsavedChangesWarning } from "../../hooks/useUnsavedChangesWarning";
+import styles from "./style.module.css";
 
-// TODO: style this page
 export default function TaskDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -21,10 +20,17 @@ export default function TaskDetailPage() {
   const dateRef = useRef<HTMLInputElement>(null);
   const timeRef = useRef<HTMLInputElement>(null);
 
+  const [isDirty, setIsDirty] = useState<boolean>(false);
+
+  // Handle unsaved changes before leaving the page
+  useUnsavedChangesWarning(isDirty);
+
   // Initialize input value
   useEffect(() => {
     if (task !== undefined) {
-      if (titleRef.current !== null) titleRef.current.value = task.title;
+      if (titleRef.current !== null) {
+        titleRef.current.value = task.title;
+      }
       if (dateRef.current !== null) dateRef.current.value = task.dueDate;
       if (timeRef.current !== null) timeRef.current.value = task.dueTime;
     }
@@ -43,6 +49,9 @@ export default function TaskDetailPage() {
 
     if (loadingUpdate) return;
 
+    titleRef.current.disabled = true;
+    dateRef.current.disabled = true;
+    timeRef.current.disabled = true;
     // console.log(`Task: ${titleRef.current?.value}`);
     // console.log(`Date: ${dateRef.current?.value}`);
     // console.log(`Time: ${timeRef.current?.value}`);
@@ -62,6 +71,10 @@ export default function TaskDetailPage() {
         toast.success("Task updated", { id: toastId });
       }
     }
+
+    titleRef.current.disabled = false;
+    dateRef.current.disabled = false;
+    timeRef.current.disabled = false;
   };
 
   if (loading) return <p>Loading...</p>;
@@ -75,13 +88,37 @@ export default function TaskDetailPage() {
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <div className={styles.subFormContainer}>
           <h2>Task</h2>
-          <input type="text" id="taskTitle" required ref={titleRef} />
+          <input
+            type="text"
+            id="taskTitle"
+            required
+            ref={titleRef}
+            onChange={(e) => {
+              setIsDirty(e.target.value !== task?.title);
+            }}
+          />
         </div>
         <div className={styles.subFormContainer}>
           <h2>Due Date</h2>
           <div className={styles.inputContainer}>
-            <input type="date" id="dueDate" required ref={dateRef} />
-            <input type="time" id="dueTime" required ref={timeRef} />
+            <input
+              type="date"
+              id="dueDate"
+              required
+              ref={dateRef}
+              onChange={(e) => {
+                setIsDirty(e.target.value !== task?.dueDate);
+              }}
+            />
+            <input
+              type="time"
+              id="dueTime"
+              required
+              ref={timeRef}
+              onChange={(e) => {
+                setIsDirty(e.target.value !== task?.dueTime);
+              }}
+            />
           </div>
         </div>
         <div className={styles.btnContainer}>

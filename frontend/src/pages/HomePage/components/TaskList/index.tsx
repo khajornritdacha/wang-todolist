@@ -22,7 +22,6 @@ export default function TaskList({
     month: "short",
     year: "numeric",
   });
-  console.log(`Date&Dif: ${date} -> ${dayDiff}`);
   if (dayDiff === 0) {
     displayDate += " (Today)";
   }
