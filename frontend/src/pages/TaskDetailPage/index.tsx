@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { Link, useParams, Redirect } from "react-router-dom";
+import { Link, useParams, Redirect, Prompt } from "react-router-dom";
 import useEditTask from "../../hooks/useEditTask";
 import useFetchSingleTask from "../../hooks/useFetchSingleTask";
 import { useUnsavedChangesWarning } from "../../hooks/useUnsavedChangesWarning";
@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 export default function TaskDetailPage() {
   const { id } = useParams() as { id: string };
-  const { loading, error, task } = useFetchSingleTask(id as string);
+  const { loading, error, task, fetchTask } = useFetchSingleTask(id as string);
   const {
     loading: loadingUpdate,
     error: errorUpdate,
@@ -23,7 +23,7 @@ export default function TaskDetailPage() {
 
   const [isDirty, setIsDirty] = useState<boolean>(false);
 
-  // Handle unsaved changes before leaving the page
+  // When reload page, prompt user when there are unsaved changes
   useUnsavedChangesWarning(isDirty);
 
   // Initialize input value
@@ -69,6 +69,7 @@ export default function TaskDetailPage() {
       if (errorUpdate) {
         toast.error("Fail to update task", { id: toastId });
       } else {
+        setIsDirty(false);
         toast.success("Task updated", { id: toastId });
       }
     }
@@ -87,6 +88,8 @@ export default function TaskDetailPage() {
   if (!isLoggedIn) return <Redirect to="/login" />;
   return (
     <div className={styles.pageContainer}>
+      {/* When go back, prompt user to discard changes */}
+      <Prompt when={isDirty} message={"Changes you made may not be saved."} />
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <div className={styles.subFormContainer}>
           <h2>Task</h2>
