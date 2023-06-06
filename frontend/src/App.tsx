@@ -1,15 +1,21 @@
+import { ThemeProvider } from "@emotion/react";
+import { Toaster } from "react-hot-toast";
 import AuthProvider from "./providers/AuthProvider";
 import AppRoutes from "./routes/AppRoutes";
-import { Toaster } from "react-hot-toast";
-// TODO: useAuth to check if user is logged in via access token
+import { theme } from "./utils/theme";
 
 function App() {
+  // const isBrowserDefaultDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches
+  // const [theme, setTheme] = useState(isBrowserDefaultDark() ? "dark" : "light");
+
   return (
     <>
-      <AuthProvider>
-        <Toaster position="top-center" />
-        <AppRoutes />
-      </AuthProvider>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <Toaster position="top-center" />
+          <AppRoutes />
+        </AuthProvider>
+      </ThemeProvider>
     </>
   );
 }

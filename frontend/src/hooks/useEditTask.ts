@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TaskDto } from "../types/dto";
+import { TaskDto } from "../@types/dto";
 import { api } from "../utils/axios";
 
 const useEditTask = () => {

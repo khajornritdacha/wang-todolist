@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import TaskList from "../TaskList";
 import { NAVBAR_HEIGHT } from "../../../../components/Navbar/constants";
-import { TasksApiDto } from "../../../../types/dto";
+import { TasksApiDto } from "../../../../@types/dto";
 import styles from "./styles.module.css";
 import useFetchTasks from "../../../../hooks/useFetchTasks";
 

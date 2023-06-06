@@ -4,7 +4,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import useDeleteTask from "../../../../hooks/useDeleteTask";
 import useEditTask from "../../../../hooks/useEditTask";
-import { TaskDto } from "../../../../types/dto";
+import { TaskDto } from "../../../../@types/dto";
 import styles from "./styles.module.css";
 import { useState } from "react";
 
@@ -61,6 +61,7 @@ export default function SingleTask({ task, fetchTasks }: SingleTaskProps) {
           className={styles.textContainer}
           style={{
             textDecoration: task.isCompleted ? "line-through" : "inherit",
+            textDecorationColor: task.isCompleted ? "black" : "white",
           }}
         >
           <h3>{task.title}</h3>

@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { createContext, ReactNode, useState } from "react";
 import toast from "react-hot-toast";
 import { API_BASE_URL } from "../env";
-import { CredentialDto, ErrorDto } from "../types/dto";
+import { CredentialDto, ErrorDto } from "../@types/dto";
 
 interface IAuthContext {
   isLoggedIn: boolean;

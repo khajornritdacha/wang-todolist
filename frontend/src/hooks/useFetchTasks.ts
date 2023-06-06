@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TasksApiDto } from "../types/dto";
+import { TasksApiDto } from "../@types/dto";
 import { api } from "../utils/axios";
 
 const useFetchTasks = () => {

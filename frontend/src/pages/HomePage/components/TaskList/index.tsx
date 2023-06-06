@@ -1,4 +1,4 @@
-import { TaskDto } from "../../../../types/dto";
+import { TaskDto } from "../../../../@types/dto";
 import SingleTask from "../Singletask";
 import styles from "./styles.module.css";
 
