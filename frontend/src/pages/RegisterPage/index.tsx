@@ -1,11 +1,14 @@
-import styles from "./styles.module.css";
-
-import { FormEvent, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
+import { FormEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import { ErrorDto } from "../../@types/dto";
 import { API_BASE_URL } from "../../env";
+import {
+  formContainerStyle,
+  headingContainerStyle,
+  pageContainerStyle,
+} from "./style";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -56,17 +59,13 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.headingContainer}>
+    <div css={pageContainerStyle}>
+      <div css={headingContainerStyle}>
         <h1>Todo List</h1>
         <h2>Register</h2>
       </div>
-      <section className={styles.inputSection}>
-        <form
-          action=""
-          className={styles.formContainer}
-          onSubmit={handleRegister}
-        >
+      <section>
+        <form action="" css={formContainerStyle} onSubmit={handleRegister}>
           <input type="email" id="email" ref={emailRef} placeholder="email" />
           <input
             type="password"
@@ -82,7 +81,7 @@ export default function RegisterPage() {
           />
           <button type="submit">Register</button>
         </form>
-        <div className={styles.registerText}>
+        <div>
           <span>Already have account?</span>
           <Link to="/login">Login</Link>
         </div>

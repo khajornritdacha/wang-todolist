@@ -1,8 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
-import styles from "./styles.module.css";
-import { useAuth } from "../../hooks/useAuth";
 import { FormEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import {
+  formContainerStyle,
+  headingContainerStyle,
+  pageContainerStyle,
+} from "./style";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -18,8 +22,6 @@ export default function LoginPage() {
 
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
-
-    console.log(email, password);
 
     if (!email || !password) {
       toast.error("Please enter username and password");
@@ -43,13 +45,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.headingContainer}>
+    <div css={pageContainerStyle}>
+      <div css={headingContainerStyle}>
         <h1>Todo List</h1>
         <h2>Login</h2>
       </div>
-      <section className={styles.inputSection}>
-        <form action="" className={styles.formContainer} onSubmit={handleLogin}>
+      <section>
+        <form action="" css={formContainerStyle} onSubmit={handleLogin}>
           <input type="email" id="email" ref={emailRef} placeholder="email" />
           <input
             type="password"
@@ -59,7 +61,7 @@ export default function LoginPage() {
           />
           <button type="submit">Login</button>
         </form>
-        <div className={styles.registerText}>
+        <div>
           <span>Don't have account?</span>
           <Link to="/register">Register</Link>
         </div>
