@@ -1,9 +1,9 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { AiOutlineArrowLeft } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import useCreateTask from "../../hooks/useCreateTask";
 import styles from "./style.module.css";
+import { useAuth } from "../../hooks/useAuth";
 
 // TODO: style this page
 export default function CreateNewTaskPage() {
@@ -11,6 +11,7 @@ export default function CreateNewTaskPage() {
   const [date, setDate] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const { error, loading, createTask } = useCreateTask();
+  const { isLoggedIn } = useAuth();
 
   // TODO: clear input after successfully submit
   // TODO: add disable button when submit
@@ -41,6 +42,7 @@ export default function CreateNewTaskPage() {
     setTime("");
   };
 
+  if (!isLoggedIn) return <Redirect to="/login" />;
   return (
     <div className={styles.pageContainer}>
       <form className={styles.formContainer} onSubmit={handleSubmit}>

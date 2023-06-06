@@ -1,20 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams, Redirect } from "react-router-dom";
 import useEditTask from "../../hooks/useEditTask";
 import useFetchSingleTask from "../../hooks/useFetchSingleTask";
 import { useUnsavedChangesWarning } from "../../hooks/useUnsavedChangesWarning";
 import styles from "./style.module.css";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function TaskDetailPage() {
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams() as { id: string };
   const { loading, error, task } = useFetchSingleTask(id as string);
   const {
     loading: loadingUpdate,
     error: errorUpdate,
     editTask,
   } = useEditTask();
+  const { isLoggedIn } = useAuth();
 
   const titleRef = useRef<HTMLInputElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
@@ -80,9 +81,10 @@ export default function TaskDetailPage() {
   if (loading) return <p>Loading...</p>;
   if (error) {
     toast.error("Error in fetching task");
-    navigate("/");
+    return <Redirect to="/" />;
   }
 
+  if (!isLoggedIn) return <Redirect to="/login" />;
   return (
     <div className={styles.pageContainer}>
       <form className={styles.formContainer} onSubmit={handleSubmit}>

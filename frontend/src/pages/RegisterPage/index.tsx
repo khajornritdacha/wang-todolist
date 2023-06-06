@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { FormEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { ErrorDto } from "../../@types/dto";
 import { API_BASE_URL } from "../../env";
 import {
@@ -9,13 +9,14 @@ import {
   headingContainerStyle,
   pageContainerStyle,
 } from "./style";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function RegisterPage() {
-  const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setSubmitting] = useState(false);
+  const { isLoggedIn } = useAuth();
 
   const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,7 +45,7 @@ export default function RegisterPage() {
         password,
       });
       toast.success("Account created!");
-      navigate("/login");
+      return <Redirect to="/login" />;
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const { response } = err as AxiosError<ErrorDto>;
@@ -57,6 +58,8 @@ export default function RegisterPage() {
       setSubmitting(false);
     }
   };
+
+  if (isLoggedIn) return <Redirect to="/" />;
 
   return (
     <div css={pageContainerStyle}>

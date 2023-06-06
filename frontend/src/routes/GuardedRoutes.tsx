@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 interface GuardedRoutesProps {
   /**
@@ -11,6 +11,7 @@ interface GuardedRoutesProps {
    * @default '/'
    */
   redirectRoute?: string;
+  children: JSX.Element;
 }
 
 /**
@@ -34,7 +35,8 @@ interface GuardedRoutesProps {
 const GuardedRoute = ({
   isRouteAccessible = false,
   redirectRoute = "/",
+  children,
 }: GuardedRoutesProps): JSX.Element =>
-  isRouteAccessible ? <Outlet /> : <Navigate to={redirectRoute} replace />;
+  isRouteAccessible ? children : <Redirect to={redirectRoute} />;
 
 export default GuardedRoute;

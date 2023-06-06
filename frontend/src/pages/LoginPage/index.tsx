@@ -1,6 +1,6 @@
 import { FormEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import {
   formContainerStyle,
@@ -9,11 +9,11 @@ import {
 } from "./style";
 
 export default function LoginPage() {
-  const navigate = useNavigate();
   const { login } = useAuth();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setSubmitting] = useState(false);
+  const { isLoggedIn } = useAuth();
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,7 +32,7 @@ export default function LoginPage() {
     try {
       await login(email, password);
       toast.success("Log in successfully!");
-      navigate("/");
+      return <Redirect to="/" />;
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -44,6 +44,7 @@ export default function LoginPage() {
     }
   };
 
+  if (isLoggedIn) return <Redirect to="/" />;
   return (
     <div css={pageContainerStyle}>
       <div css={headingContainerStyle}>
