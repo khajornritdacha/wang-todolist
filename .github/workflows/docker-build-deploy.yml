@@ -104,4 +104,4 @@ jobs:
             ls -al
             cd wang-todolist
             git pull
-            docker compose down --remove-orphans && docker compose pull && docker compose up --build
+            docker compose down --remove-orphans && docker compose pull && docker compose up --build -d
