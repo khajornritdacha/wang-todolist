@@ -1,0 +1,12 @@
+FROM node:lts-alpine3.18
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install
+
+# TODO: put built file somewhere else and let nginx handle it
+CMD ["npm", "run", "dev"]
+
+
