@@ -11,7 +11,7 @@ name: Create and publish a Docker image
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "latest"]
 
 env:
   REGISTRY: ghcr.io
@@ -88,3 +88,17 @@ jobs:
           push: true
           tags: ${{ steps.metaFrontend.outputs.tags }}
           labels: ${{ steps.metaFrontend.outputs.labels }}
+
+  deploy:
+    needs: [build-and-push-backend-image, build-and-push-frontend-image]
+    runs-on: ubuntu-latest
+    steps:
+      - name: ssh and deploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            whoami
+            ls -al

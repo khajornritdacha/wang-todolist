@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-console.log('process.env.NODE_ENV: ' + process.env.NODE_ENV);
+console.log('ENV Mode: ' + process.env.NODE_ENV);
 
 // Cors
 const corsOptions = {

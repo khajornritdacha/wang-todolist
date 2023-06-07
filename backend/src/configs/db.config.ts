@@ -10,4 +10,4 @@ mongoose.connect(dbURL);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-console.log('Connected To database');
+console.log(`Connected To database on: ${dbURL}`);
