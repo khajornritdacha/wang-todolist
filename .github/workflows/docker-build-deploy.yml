@@ -102,3 +102,6 @@ jobs:
           script: |
             whoami
             ls -al
+            cd wang-todolist
+            git pull
+            docker compose down --remove-orphans && docker compose pull && docker compose up --build

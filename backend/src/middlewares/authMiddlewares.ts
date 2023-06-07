@@ -15,7 +15,7 @@ export function authenticateToken(
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
-    console.log('Auth middle ware -> Access token: ', token);
+    // console.log('Auth middle ware -> Access token: ', token);
 
     if (!token) return res.sendStatus(401);
 
