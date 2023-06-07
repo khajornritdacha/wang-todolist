@@ -30,7 +30,9 @@ export default function TaskList({
     <div className={styles.container} ref={taskListRef}>
       <h1 className={styles.dateText}>{displayDate}</h1>
       {tasks.map((task: TaskDto) => {
-        return <SingleTask task={task} fetchTasks={fetchTasks} />;
+        return (
+          <SingleTask task={task} fetchTasks={fetchTasks} key={task._id} />
+        );
       })}
     </div>
   );
