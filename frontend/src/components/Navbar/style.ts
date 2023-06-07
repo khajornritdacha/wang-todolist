@@ -10,7 +10,15 @@ export const navbarStyle = (theme: Theme) => ({
   zIndex: 1,
 });
 
-export const icon = (theme: Theme) => ({
+export const iconStyle = (theme: Theme) => ({
   cursor: "pointer",
   fontSize: "20px",
+});
+
+export const themeIconStyle = (theme: Theme) => ({
+  marginRight: "10px",
+
+  [`@media only screen and (min-width: ${theme.breakpoints.sm})`]: {
+    marginRight: "20px",
+  },
 });
