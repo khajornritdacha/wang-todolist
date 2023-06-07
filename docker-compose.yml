@@ -1,12 +1,12 @@
 version: "3.3"
 services:
   backend:
-    build: ./backend
+    image: "ghcr.io/khajornritdacha/wang-todolist-backend:main"
     restart: always
     ports:
       - 3000:3000
   frontend:
-    build: ./frontend
+    image: "ghcr.io/khajornritdacha/wang-todolist-frontend:main"
     restart: always
     ports:
       - 80:80
