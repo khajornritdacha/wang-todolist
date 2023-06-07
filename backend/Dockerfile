@@ -1,11 +1,26 @@
-FROM node:lts-alpine3.18
+FROM node:18-alpine AS pnpm
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+RUN apk update
+
+ENV PNPM_HOME="/root/.local/share/pnpm"
+ENV PATH="${PATH}:${PNPM_HOME}"
+RUN npm install -g pnpm
+
+#----------------------------------------------------------------------
+
+FROM pnpm
 
 WORKDIR /app
 
+COPY "./package*.json" "./"
+
+RUN pnpm install 
+
 COPY . .
 
-RUN npm install && npm run build
+RUN pnpm run build
 
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
 
 

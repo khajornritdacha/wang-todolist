@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { CredentialDto } from '../models/dto';
 
-dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV || 'local'}` });
 const saltRounds = 10;
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'SECRET';
 

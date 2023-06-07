@@ -8,7 +8,7 @@ import './src/models/User';
 import authRoutes from './src/routes/authRoutes';
 import taskRoutes from './src/routes/taskRoutes';
 
-dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV || 'local'}` });
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -19,6 +19,8 @@ console.log('FRONTEND_URL: ' + FRONTEND_URL);
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+
+console.log('process.env.NODE_ENV: ' + process.env.NODE_ENV);
 
 // Cors
 const corsOptions = {

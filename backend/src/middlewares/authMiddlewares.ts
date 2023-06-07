@@ -3,7 +3,7 @@ import { NextFunction, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { CredentialDto, UserRequest } from '../models/dto';
 
-dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV || 'local'}` });
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'SECRET';
 
