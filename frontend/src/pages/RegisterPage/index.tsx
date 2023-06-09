@@ -44,19 +44,20 @@ export default function RegisterPage() {
       return;
     }
 
+    const toastId = toast.loading("Creating account...");
     try {
       await axios.post(`${API_BASE_URL}/auth/register`, {
         email,
         password,
       });
-      toast.success("Account created!");
+      toast.success("Account created!", { id: toastId });
       console.log("Redirect");
       history.push("/login");
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const { response } = err as AxiosError<ErrorDto>;
         const message = response?.data.message;
-        toast.error(message || "Something went wrong");
+        toast.error(message || "Something went wrong", { id: toastId });
         return;
       }
       toast.error("Something went wrong");

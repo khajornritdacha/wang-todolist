@@ -34,16 +34,17 @@ export default function LoginPage() {
       return;
     }
 
+    const toastId = toast.loading("Logging in...");
     try {
       await login(email, password);
-      toast.success("Log in successfully!");
+      toast.success("Log in successfully!", { id: toastId });
       history.push("/");
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
         return;
       }
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", { id: toastId });
     } finally {
       setSubmitting(false);
     }
