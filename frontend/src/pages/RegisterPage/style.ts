@@ -29,3 +29,19 @@ export const formContainerStyle = (theme: Theme) => ({
   gap: "20px",
   marginBottom: "10px",
 });
+
+export const registerBtnStyle = (theme: Theme) => ({
+  width: "100px",
+  border: "none",
+  borderRadius: "0.5rem",
+  backgroundColor: "#fbb22c",
+  height: "35px",
+  fontSize: "1rem",
+  cursor: "pointer",
+});
+
+export const disableBtnStyle = (theme: Theme) => ({
+  backgroundColor: "rgb(200, 198, 198)",
+  color: "whitesmoke",
+  cursor: "not-allowed",
+});

@@ -8,6 +8,8 @@ import {
   formContainerStyle,
   headingContainerStyle,
   pageContainerStyle,
+  registerBtnStyle,
+  disableBtnStyle,
 } from "./style";
 import { useAuth } from "../../hooks/useAuth";
 import useCustomTheme from "../../hooks/useCustomTheme";
@@ -86,7 +88,13 @@ export default function RegisterPage() {
             ref={passwordConfirmRef}
             placeholder="confirm password"
           />
-          <button type="submit">Register</button>
+          <button
+            type="submit"
+            css={[registerBtnStyle, isSubmitting && disableBtnStyle]}
+            disabled={isSubmitting}
+          >
+            Register
+          </button>
         </form>
         <div>
           <span>Already have account?</span>

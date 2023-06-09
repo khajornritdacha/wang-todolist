@@ -6,7 +6,10 @@ import {
   formContainerStyle,
   headingContainerStyle,
   pageContainerStyle,
+  loginBtnStyle,
+  disableBtnStyle,
 } from "./style";
+import useCustomTheme from "../../hooks/useCustomTheme";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -15,6 +18,7 @@ export default function LoginPage() {
   const [isSubmitting, setSubmitting] = useState(false);
   const { isLoggedIn } = useAuth();
   const history = useHistory();
+  const { theme } = useCustomTheme();
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -61,11 +65,22 @@ export default function LoginPage() {
             ref={passwordRef}
             placeholder="password"
           />
-          <button type="submit">Login</button>
+          <button
+            type="submit"
+            css={[loginBtnStyle, isSubmitting && disableBtnStyle]}
+            disabled={isSubmitting}
+          >
+            Login
+          </button>
         </form>
         <div>
           <span>Don't have account?</span>
-          <Link to="/register">Register</Link>
+          <Link
+            to="/register"
+            style={{ color: `${theme.isDark ? "white" : "black"}` }}
+          >
+            Register
+          </Link>
         </div>
       </section>
     </div>
