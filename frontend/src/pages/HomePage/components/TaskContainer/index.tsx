@@ -1,23 +1,18 @@
 import { useEffect, useRef } from "react";
-import TaskList from "../TaskList";
+import { Redirect } from "react-router-dom";
 import { NAVBAR_HEIGHT } from "../../../../components/Navbar/constants";
-import { TasksApiDto } from "../../../../@types/dto";
-import styles from "./styles.module.css";
+import { useAuth } from "../../../../hooks/useAuth";
 import useFetchTasks from "../../../../hooks/useFetchTasks";
-
-interface TaskContainerProps {
-  taskData: TasksApiDto;
-  loading: boolean;
-  error: boolean;
-  fetchTasks: () => Promise<void>;
-}
+import TaskList from "../TaskList";
+import styles from "./styles.module.css";
+import { toast } from "react-hot-toast";
 
 export default function TaskContainer() {
   const todayListRef = useRef<HTMLDivElement>(null);
 
+  const { logout } = useAuth();
   const { loading, error, taskData, fetchTasks, fetchCount } = useFetchTasks();
 
-  // TODO: handle scroll
   useEffect(() => {
     if (!todayListRef.current) return;
     if (loading) return;
@@ -28,20 +23,30 @@ export default function TaskContainer() {
     });
   }, [loading, fetchCount]);
 
+  if (error) {
+    logout();
+    toast.error("Something went wrong");
+    return <Redirect to="/login" />;
+  }
+
   return (
     <div className={styles.container}>
-      {taskData.data.map((taskList) => {
-        return (
-          <TaskList
-            date={taskList.date}
-            dayDiff={taskList.dayDiff}
-            taskListRef={taskList.dayDiff === 0 ? todayListRef : null}
-            tasks={taskList.tasks}
-            fetchTasks={fetchTasks}
-            key={taskList.date}
-          />
-        );
-      })}
+      {taskData.data.length === 0 ? (
+        <h1>You have no task yet</h1>
+      ) : (
+        taskData.data.map((taskList) => {
+          return (
+            <TaskList
+              date={taskList.date}
+              dayDiff={taskList.dayDiff}
+              taskListRef={taskList.dayDiff === 0 ? todayListRef : null}
+              tasks={taskList.tasks}
+              fetchTasks={fetchTasks}
+              key={taskList.date}
+            />
+          );
+        })
+      )}
     </div>
   );
 }

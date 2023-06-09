@@ -2,12 +2,17 @@ import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { NAVBAR_HEIGHT } from "./constants";
-import { iconStyle, navbarStyle, themeIconStyle } from "./style";
+import {
+  iconStyle,
+  navbarStyle,
+  themeIconStyle,
+  logoutIconStyle,
+} from "./style";
 import { BsSunFill, BsMoonFill } from "react-icons/bs";
 import useCustomTheme from "../../hooks/useCustomTheme";
 
 export default function Navbar() {
-  const { logout } = useAuth();
+  const { logout, isLoggedIn } = useAuth();
   const { theme, toggleTheme } = useCustomTheme();
 
   return (
@@ -24,7 +29,9 @@ export default function Navbar() {
         ) : (
           <BsMoonFill css={[iconStyle, themeIconStyle]} onClick={toggleTheme} />
         )}
-        <FiLogOut css={iconStyle} onClick={logout} />
+        {isLoggedIn && (
+          <FiLogOut css={[iconStyle, logoutIconStyle]} onClick={logout} />
+        )}
       </div>
     </nav>
   );

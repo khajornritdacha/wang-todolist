@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { FormEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { ErrorDto } from "../../@types/dto";
 import { API_BASE_URL } from "../../env";
 import {
@@ -10,13 +10,16 @@ import {
   pageContainerStyle,
 } from "./style";
 import { useAuth } from "../../hooks/useAuth";
+import useCustomTheme from "../../hooks/useCustomTheme";
 
 export default function RegisterPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setSubmitting] = useState(false);
+  const { theme } = useCustomTheme();
   const { isLoggedIn } = useAuth();
+  const history = useHistory();
 
   const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,7 +48,8 @@ export default function RegisterPage() {
         password,
       });
       toast.success("Account created!");
-      return <Redirect to="/login" />;
+      console.log("Redirect");
+      history.push("/login");
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const { response } = err as AxiosError<ErrorDto>;
@@ -86,7 +90,12 @@ export default function RegisterPage() {
         </form>
         <div>
           <span>Already have account?</span>
-          <Link to="/login">Login</Link>
+          <Link
+            to="/login"
+            style={{ color: `${theme.isDark ? "white" : "black"}` }}
+          >
+            Login
+          </Link>
         </div>
       </section>
     </div>

@@ -1,6 +1,6 @@
 import { FormEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import {
   formContainerStyle,
@@ -14,6 +14,7 @@ export default function LoginPage() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setSubmitting] = useState(false);
   const { isLoggedIn } = useAuth();
+  const history = useHistory();
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,7 +33,7 @@ export default function LoginPage() {
     try {
       await login(email, password);
       toast.success("Log in successfully!");
-      return <Redirect to="/" />;
+      history.push("/");
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);

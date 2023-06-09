@@ -15,10 +15,12 @@ export const iconStyle = (theme: Theme) => ({
   fontSize: "20px",
 });
 
-export const themeIconStyle = (theme: Theme) => ({
-  marginRight: "10px",
+export const themeIconStyle = (theme: Theme) => ({});
+
+export const logoutIconStyle = (theme: Theme) => ({
+  marginLeft: "10px",
 
   [`@media only screen and (min-width: ${theme.breakpoints.sm})`]: {
-    marginRight: "20px",
+    marginLeft: "20px",
   },
 });
