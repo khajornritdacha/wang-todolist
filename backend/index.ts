@@ -24,7 +24,7 @@ console.log('Env Mode: ' + process.env.NODE_ENV);
 
 // Cors
 const corsOptions = {
-    origin: [FRONTEND_URL],
+    origin: "*",
     credentials: true,
 };
 app.use(cors(corsOptions));
