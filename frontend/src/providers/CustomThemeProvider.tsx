@@ -18,10 +18,16 @@ interface CustomThemeProviderProps {
 export const CustomThemeProvider = ({ children }: CustomThemeProviderProps) => {
   const isBrowserDefaultDark = () =>
     window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const isUserPreferDark = localStorage.getItem("theme") === "dark";
+  const checkPreferDark = (): boolean => {
+    const localTheme = localStorage.getItem("theme");
+    if (!localTheme) return isBrowserDefaultDark();
+    if (localTheme === "dark") return true;
+    return false;
+  };
+
   const [theme, setTheme] = useState({
     ...customTheme,
-    isDark: isUserPreferDark || isBrowserDefaultDark(),
+    isDark: checkPreferDark(),
   });
 
   const toggleTheme = () => {
